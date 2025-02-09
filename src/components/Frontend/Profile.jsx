@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FileText, Award, User, Mail, Phone, MapPin, Calendar, Pencil, LogOut, FileLock2 } from 'lucide-react';
 import {
     // FormControl,
     // InputLabel,
@@ -13,24 +14,24 @@ import {
 } from '@mui/material';
 
 export default function Profile() {
-        const [studentData, setStudentData] = useState({
-          name:'',
-          age: null,
-          class: null,
-          college: null,
-          bloodGroup: null,
-          UUCMS: null
-        });
+    const [studentData, setStudentData] = useState({
+        name: '',
+        age: null,
+        class: null,
+        college: null,
+        bloodGroup: null,
+        UUCMS: null
+    });
 
-        const [editMode, setEditMode] = useState(false);
+    const [editMode, setEditMode] = useState(false);
 
-        const handleEditToggle = () => {
-          setEditMode(!editMode);
-        };
+    const handleEditToggle = () => {
+        setEditMode(!editMode);
+    };
 
-        const handleDataUpdate = (field, value) => {
-          setStudentData({ ...studentData, [field]: value });
-        };
+    const handleDataUpdate = (field, value) => {
+        setStudentData({ ...studentData, [field]: value });
+    };
 
     const [documents, setDocuments] = useState([]);
     const [officialDocs, setOfficialDocs] = useState([]);
@@ -88,15 +89,15 @@ export default function Profile() {
 
 
     const DocumentSection = ({ title, document, docType }) => (
-        <Paper 
-        sx={{
-            p: 3, backgroundColor: '#F0F0F0',
-            color: 'black',
-        }}
+        <Paper
+            sx={{
+                p: 3, backgroundColor: '#F0F0F0',
+                color: 'black',
+            }}
         >
             <Typography variant="h6" gutterBottom>{title}</Typography>
             {document ? (
-    
+
                 <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
                     <Button variant="contained" onClick={() => window.open(URL.createObjectURL(document))}>
                         View
@@ -141,95 +142,114 @@ export default function Profile() {
     );
 
     return (
-        <Box style={{ display: 'block', background: 'white', minHeight: '100vh'}}>
-                  <Paper sx={{
-                    p:6, mb: 0,
-                    backgroundColor: '#2F4F7F',
-                    color: 'white',
-                  }}>
-                    <Typography variant="h4" gutterBottom>Student Profile</Typography>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6}>
-                        <Typography><strong>Name:</strong> {editMode ? <input type="text" value={studentData.name} onChange={(e) => handleDataUpdate('name', e.target.value)} /> : studentData.name}</Typography>
-                        <Typography><strong>Age:</strong> {editMode ? <input type="number" value={studentData.age} onChange={(e) => handleDataUpdate('age', parseInt(e.target.value))} /> : studentData.age}</Typography>
-                        <Typography><strong>Class:</strong> {editMode ? <input type="text" value={studentData.class} onChange={(e) => handleDataUpdate('class', e.target.value)} /> : studentData.class}</Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography><strong>College:</strong> {editMode ? <input type="text" value={studentData.college} onChange={(e) => handleDataUpdate('college', e.target.value)} /> : studentData.college}</Typography>
-                        <Typography><strong>Blood Group:</strong> {editMode ? <input type="text" value={studentData.bloodGroup} onChange={(e) => handleDataUpdate('bloodGroup', e.target.value)} /> : studentData.bloodGroup}</Typography>
-                        <Typography><strong>UUCMS:</strong> {editMode ? <input type="text" value={studentData.UUCMS} onChange={(e) => handleDataUpdate('UUCMS', e.target.value)} /> : studentData.UUCMS}</Typography>
-                      </Grid>
-                    </Grid>
-                    <Button variant="contained" color="primary" onClick={handleEditToggle}>
-                      {editMode ? 'Save' : 'Edit'}
-                    </Button>
-                  </Paper>
-
-
-            <Paper elevation={3} sx={{
-                p: 2, mb: 3,
-                backgroundColor: '#f0f0f0',
-                color: 'black',
+        <Box>
+             <Paper sx={{minHeight:'100vh',
+                backgroundColor: 'rgba(113, 126, 142, 0.15)',
             }}>
+            <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',boxShadow:'0px 1px', backgroundColor:'white' }}>
+                <Typography variant="h4" fontStyle={'bold'} sx={{ marginLeft: '20px' }} gutterBottom><FileLock2 size={40} />
+                    EduVault
+                </Typography>
+                <Button variant='outlined' color='black' sx={{ marginRight: '20px' }} ><LogOut /> Logout</Button>
+            </nav>
+
+          
+
+            {/* <Paper sx={{
+                p: 4, mb: 0,
+                background: 'linear-gradient(135deg, #2F4F7F 0%, #1A1D23 100%)',
+                color: 'white',
+            }}>
+                <Typography variant="h4" gutterBottom>Student Profile</Typography>
+                <Button variant="contained" color="primary" onClick={handleEditToggle}>
+                    {editMode ? 'Save' : 'Edit'}
+                </Button>
+                <Paper elevation={3} sx={{
+                    p: 6,
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: 2,
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    color: 'white',
+                }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <Typography><strong>Name:</strong> {editMode ? <input type="text" value={studentData.name} onChange={(e) => handleDataUpdate('name', e.target.value)} /> : studentData.name}</Typography>
+                            <Typography><strong>Age:</strong> {editMode ? <input type="number" value={studentData.age} onChange={(e) => handleDataUpdate('age', parseInt(e.target.value))} /> : studentData.age}</Typography>
+                            <Typography><strong>Class:</strong> {editMode ? <input type="text" value={studentData.class} onChange={(e) => handleDataUpdate('class', e.target.value)} /> : studentData.class}</Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Typography><strong>College:</strong> {editMode ? <input type="text" value={studentData.college} onChange={(e) => handleDataUpdate('college', e.target.value)} /> : studentData.college}</Typography>
+                            <Typography><strong>Blood Group:</strong> {editMode ? <input type="text" value={studentData.bloodGroup} onChange={(e) => handleDataUpdate('bloodGroup', e.target.value)} /> : studentData.bloodGroup}</Typography>
+                            <Typography><strong>UUCMS:</strong> {editMode ? <input type="text" value={studentData.UUCMS} onChange={(e) => handleDataUpdate('UUCMS', e.target.value)} /> : studentData.UUCMS}</Typography>
+                        </Grid>
+                    </Grid>
+                </Paper>
+            </Paper> */}
+
+
+         
                 <Grid container spacing={2}>
 
                     <Grid item xs={13} sm={13}>
-                        <Paper sx={{ display: 'block', p: 3, mb:0, background: 'white', padding: '20px', borderRadius: '10px', textAlign: 'center', justifyItems:'center',color: '#333', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+
+                        {/* Official documnets */}
+
+                        {/* <Paper sx={{ display: 'block', p: 3, mb: 0, background: 'white', padding: '20px', borderRadius: '10px', textAlign: 'center', justifyItems: 'center', color: '#333', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                             <Typography variant="h5" gutterBottom>Official Documents</Typography>
-                            <Grid item xs={12} sm={9} sx={{ display: 'flex', gap: 5, justifyContent: 'center'}}>
-                            <DocumentSection title="Aadhar Card" document={officialDocs.aadhar} docType="aadhar" />
-                            <DocumentSection title="10th Marks Card" document={officialDocs.tenthMarks} docType="tenthMarks" />
-                            <DocumentSection title="12th Marks Card" document={officialDocs.twelfthMarks} docType="twelfthMarks" />
+                            <Grid item xs={12} sm={9} sx={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
+                                <DocumentSection title="Aadhar Card" document={officialDocs.aadhar} docType="aadhar" />
+                                <DocumentSection title="10th Marks Card" document={officialDocs.tenthMarks} docType="tenthMarks" />
+                                <DocumentSection title="12th Marks Card" document={officialDocs.twelfthMarks} docType="twelfthMarks" />
                             </Grid>
-                        </Paper>
+                        </Paper> */}
                     </Grid>
                     {/* Additional Documents */}
                     <Grid item xs={12} sm={6}>
-                        <Paper sx={{ p: 3, mb: 3, background: 'white', padding: '20px', borderRadius: '10px', textAlign: 'center', color: '#333',minHeight:'150px', maxWidth: '700px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+                        {/* <Paper sx={{ p: 3, mb: 3, background: 'white', padding: '20px', borderRadius: '10px', textAlign: 'center', color: '#333', minHeight: '150px', maxWidth: '700px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                             <Typography variant="h5" gutterBottom>Additional Documents</Typography>
-                                {documents.map((doc, index) => (
-                                    <Grid item key={index}>
-                                        <Card sx={{
-                                            backgroundColor: '#f0f0f0',
-                                            color: 'black',
-                                            mb: '10px',
-                                        }}>
-                                            <CardContent>
-                                                <Typography variant="h6" gutterBottom>{doc.name}</Typography>
-                                                <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', }}>
-                                                    <Button
-                                                        variant="contained"
-                                                        size="small"
-                                                        onClick={() => window.open(URL.createObjectURL(doc.pdf))}
-                                                    >
-                                                        View
-                                                    </Button>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="secondary"
-                                                        size="small"
-                                                        onClick={() => {
-                                                            const link = document.createElement('a');
-                                                            link.href = URL.createObjectURL(doc.pdf);
-                                                            link.download = `${doc.name}.pdf`;
-                                                            link.click();
-                                                        }}
-                                                    >
-                                                        Download
-                                                    </Button>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="error"
-                                                        size="small"
-                                                        onClick={() => setDocuments(documents.filter((_, i) => i !== index))}
-                                                    >
-                                                        Delete
-                                                    </Button>
-                                                </Box>
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
-                                ))}
+                            {documents.map((doc, index) => (
+                                <Grid item key={index}>
+                                    <Card sx={{
+                                        backgroundColor: '#f0f0f0',
+                                        color: 'black',
+                                        mb: '10px',
+                                    }}>
+                                        <CardContent>
+                                            <Typography variant="h6" gutterBottom>{doc.name}</Typography>
+                                            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', }}>
+                                                <Button
+                                                    variant="contained"
+                                                    size="small"
+                                                    onClick={() => window.open(URL.createObjectURL(doc.pdf))}
+                                                >
+                                                    View
+                                                </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    size="small"
+                                                    onClick={() => {
+                                                        const link = document.createElement('a');
+                                                        link.href = URL.createObjectURL(doc.pdf);
+                                                        link.download = `${doc.name}.pdf`;
+                                                        link.click();
+                                                    }}
+                                                >
+                                                    Download
+                                                </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    color="error"
+                                                    size="small"
+                                                    onClick={() => setDocuments(documents.filter((_, i) => i !== index))}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </Box>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            ))}
 
                             <Button
                                 variant="contained"
@@ -302,10 +322,13 @@ export default function Profile() {
                                     </Box>
                                 </Paper>
                             )}
-                        </Paper>
+                        </Paper> */}
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <Paper sx={{ p: 3, mb: 3, background: 'white', padding: '20px', borderRadius: '10px', textAlign: 'center',minHeight:'150px', color: '#333', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+
+
+                        {/* course completion documents */}
+                        {/* <Paper sx={{ p: 3, mb: 3, background: 'white', padding: '20px', borderRadius: '10px', textAlign: 'center', minHeight: '150px', color: '#333', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                             <Typography variant="h5" gutterBottom>Course Completion Certificates</Typography>
                             <Grid container spacing={2}>
                                 {certificates.map((cert, index) => (
@@ -451,7 +474,7 @@ export default function Profile() {
                                     </Box>
                                 </Paper>
                             )}
-                        </Paper>
+                        </Paper> */}
                     </Grid>
 
                 </Grid>
