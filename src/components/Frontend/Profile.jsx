@@ -1,7 +1,7 @@
 import React from 'react';
 //{ useState } 
-
-import { Mail, Phone, MapPin, Calendar, Pencil, LogOut, FileLock2, } from 'lucide-react';
+import { useNavigate } from "react-router-dom"
+import { Mail, Phone, MapPin, Calendar, Pencil, LogOut, FileLock2, Linkedin, Instagram } from 'lucide-react';
 import {
     // FormControl,
     // InputLabel,
@@ -11,11 +11,14 @@ import {
     Box,
     Paper,
     Grid,
+    ToggleButton,
+    ToggleButtonGroup,
     //Card,
     //CardContent,
 } from '@mui/material';
 
 export default function Profile() {
+    const navigate = useNavigate();
     // const [studentData, setStudentData] = useState({
     //     name: '',
     //     age: null,
@@ -142,13 +145,21 @@ export default function Profile() {
     //         )}
     //     </Paper>
     // );
+    const handleLogoutClick = (event) => {
+        event.preventDefault();
+        navigate('/');
+    };
+    const [alignment, setAlignment] = React.useState('documents');
 
+    const handleChange = (event, newAlignment) => {
+        setAlignment(newAlignment);
+    }
     return (
         <Box sx={{
             minHeight: '100vh',
             backgroundColor: 'rgba(113, 126, 142, 0.15)',
         }}>
- {/* page header and navigation bar            */}
+            {/* page header and navigation bar            */}
             <nav style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -164,45 +175,140 @@ export default function Profile() {
                     <FileLock2 size={40} />
                     EduVault
                 </Typography>
-                <Button variant='outlined' color='black' sx={{ marginRight: '20px' }} ><LogOut /> Logout</Button>
+                <Button variant='outlined' color='black' sx={{ marginRight: '20px' }} onClick={handleLogoutClick}><LogOut /> Logout</Button>
             </nav>
 
-{/* profile and bio */}
+            {/* profile and bio */}
             <Paper sx={{
-                position: 'absolute',
-                top: '149px',
-                left: '71px',
-                width: '1760px',
-                height: '251px',
+                width: '90%', // Responsive width
+                maxWidth: '1760px', // Prevents overflow on large screens
+                margin: '40px auto', // Centers the paper with spacing from top
+                padding: '20px',
                 background: '#FFFEFFFF',
-                borderradius: '6px', /* border-m */
-                borderwidth: '1px',
-                bordercolor: '#F9FAFBFF',
-                borderstyle: 'solid',
-                boxshadow: '0px 0px 1px #171a1f12, 0px 0px 2px #171a1f1F', /* shadow-xs */
+                borderRadius: '6px',
+                border: '1px solid #F9FAFBFF',
+                boxShadow: '0px 0px 1px #171a1f12, 0px 0px 2px #171a1f1F'
             }}>
-                <img style={{
-                    borderRadius: '100%',
-                    border: 'solid 1px black',
-                    position: 'absolute',
-                    top: '32px',    
-                    left: '34px',
-                    width: '140.5081374321881px',
-                    height: '140.5081374321881px',
-                    background: '50%rgba(192, 201, 213, 0.36)', /* primary-200 */
-                    opacity: '10',
-                    overflow: 'hidden',  
-                }} src="https://imgs.search.brave.com/XoCvQPCR8cwB92wTx6BVnT53TrDFDtYoR58BYS3mj6M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTE5/NjA4Mzg2MS92ZWN0/b3Ivc2ltcGxlLW1h/bi1oZWFkLWljb24t/c2V0LmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1hOGZ3ZFg2/VUtVVkNPZWROX3Aw/cFBzenU4QjRmNnNq/YXJEbVVHSG5ndmRN/PQ" alt=" insert your Profile Pic" />
-                <Typography position={'absolute'} fontFamily={'Archivo'} fontSize={'30px'} fontWeight={700} lineHeight={'46px'} color={'#1F273FFF'} top={'36px'} left={'210px'}>Savinjaya H N</Typography>
-                <Typography position={'absolute'} fontFamily={'Archivo'} fontSize={'20px'} fontWeight={700} lineHeight={'30px'} color={'#85869CFF'} top={'82px'} left={'210px'}>Student</Typography>
-                <Button variant='outlined' color='black' sx={{ marginRight: '20px',position: 'absolute',top: '48px',  left: '1450px'}}><Pencil/>Update Bio</Button>
-                <div style={{position:'absolute', top:'134px', left:'210px'}}><Mail color='brown'/><Typography position={'absolute'} fontFamily={'Inter'} fontSize={'19px'} fontWeight={400} color={'#85869CFF'} top={'-4px'} left={'30px'}>me</Typography></div>
-                <div style={{position:'absolute',top:'180px', left:'210px'}}><MapPin color='green'/><Typography position={'absolute'} fontFamily={'Archivo'} fontSize={'20px'} fontWeight={700} color={'#85869CFF'} top={'-4px'} left={'30px'}>location</Typography></div>
-                <div style={{position:'absolute',top:'134px', left:'1015px'}}><Phone color='blue'/><Typography position={'absolute'} fontFamily={'Archivo'} fontSize={'20px'} fontWeight={700} color={'#85869CFF'} top={'-4px'} left={'30px'}>Phone</Typography></div>
-                <div style={{position:'absolute',top:'180px', left:'1015px'}}><Calendar color='black'/><Typography position={'absolute'} fontFamily={'Inter'} fontSize={'20px'} fontWeight={400} color={'#85869CFF'} top={'-4px'} left={'30px'}>date</Typography></div>
-            </Paper>
+                {/* Profile Section */}
+                <Grid container spacing={2} alignItems="center">
+                    {/* Profile Image */}
+                    <Grid item xs={12} sm={2} display="flex" justifyContent="center">
+                        <img style={{
+                            borderRadius: '100%',
+                            border: 'solid 1px black',
+                            width: '140px',
+                            height: '140px',
+                            background: 'rgba(192, 201, 213, 0.36)',
+                            overflow: 'hidden',
+                        }} src="https://imgs.search.brave.com/XoCvQPCR8cwB92wTx6BVnT53TrDFDtYoR58BYS3mj6M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTE5/NjA4Mzg2MS92ZWN0/b3Ivc2ltcGxlLW1h/bi1oZWFkLWljb24t/c2V0LmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1hOGZ3ZFg2/VUtVVkNPZWROX3Aw/cFBzenU4QjRmNnNq/YXJEbVVHSG5ndmRN/PQ" alt="Profile Pic" />
+                    </Grid>
 
-            {/* <Paper sx={{
+                    {/* Name & Student Title */}
+
+                    <Grid item xs={12} sm={6}>
+                        <Typography fontFamily="Archivo" fontSize="30px" fontWeight={700} color="#1F273FFF">
+                            Savinjaya H N
+                        </Typography>
+                        <Typography fontFamily="Archivo" fontSize="20px" fontWeight={700} color="#85869CFF">
+                            Student
+                        </Typography>
+                    </Grid>
+
+                    {/* Update Bio Button */}
+                    <Grid item xs={12} sm={3} display="flex" justifyContent="flex-end">
+                        <Button variant="outlined" color="black">
+                            <Pencil /> Update Bio
+                        </Button>
+                    </Grid>
+                </Grid>
+
+                {/* Info Grid */}
+                <Grid container spacing={4} mt={3} pl={5}>
+                    {/* Left Section - Email & Location */}
+                    <Grid item xs={12} sm={4}>
+                        <Box display="flex" alignItems="center" gap={1} mb={1}>
+                            <Mail color="brown" />
+                            <Typography fontFamily="Inter" fontSize="19px" fontWeight={400} color="#85869CFF">
+                                Gmail
+                            </Typography>
+                        </Box>
+                        <Box display="flex" alignItems="center" gap={1}>
+                            <MapPin color="green" />
+                            <Typography fontFamily="Archivo" fontSize="20px" fontWeight={700} color="#85869CFF">
+                                location
+                            </Typography>
+                        </Box>
+                    </Grid>
+
+                    {/* Right Section - Phone & Date */}
+                    <Grid item xs={12} sm={4} >
+                        <Box display="flex" alignItems="center" gap={1} mb={1}>
+                            <Phone color="blue" />
+                            <Typography fontFamily="Archivo" fontSize="20px" fontWeight={700} color="#85869CFF">
+                                Phone
+                            </Typography>
+                        </Box>
+                        <Box display="flex" alignItems="center" gap={1}>
+                            <Calendar color="black" />
+                            <Typography fontFamily="Inter" fontSize="20px" fontWeight={400} color="#85869CFF">
+                                date
+                            </Typography>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <Box display="flex" alignItems="center" gap={1} mb={1}>
+                            <Linkedin color="skyblue" />
+                            <Typography fontFamily="Archivo" fontSize="20px" fontWeight={400} color="#85869CFF">
+                                LinkedIn
+                            </Typography>
+                        </Box>
+                        <Box display="flex" alignItems="center" gap={1}>
+                            <Instagram color="pink" />
+                            <Typography fontFamily="Inter" fontSize="20px" fontWeight={700} color="#85869CFF">
+                                Instagram
+                            </Typography>
+                        </Box>
+                    </Grid>
+                </Grid>
+            </Paper>
+            {/* Toggle buttons */}
+            <Grid container spacing={2} alignItems="center" display="flex" justifyContent="center">
+                <ToggleButtonGroup
+                    color="primary"
+                    value={alignment}
+                    exclusive
+                    onChange={handleChange}
+                    aria-label="Platform"
+                    size="large">
+                    <ToggleButton value="documents" sx={{
+                        size: '500px',
+                        borderRadius: '0.5rem',
+                        "&.Mui-selected": {
+                            backgroundColor: "#4f46e5",
+                            color: "white",
+                            "&:hover": {
+                                backgroundColor: "#4338ca"
+                            }
+                        }
+                    }}>Documents</ToggleButton>
+                    <ToggleButton value="certificates" sx={{
+                        size: '500px',
+                        borderRadius: '0.5rem',
+                        "&.Mui-selected": {
+                            backgroundColor: "#4f46e5",
+                            color: "white",
+                            "&:hover": {
+                                backgroundColor: "#4338ca"
+                            }
+                        }
+                    }}>Certificates</ToggleButton>
+                </ToggleButtonGroup>
+            </Grid>
+
+
+
+            {/*
+             <Paper sx={{
                 p: 4, mb: 0,
                 background: 'linear-gradient(135deg, #2F4F7F 0%, #1A1D23 100%)',                
                 color: 'white',
@@ -231,7 +337,8 @@ export default function Profile() {
                         </Grid>
                     </Grid>
                 </Paper>
-            </Paper> */}
+            </Paper> 
+            */}
 
 
 
@@ -524,7 +631,7 @@ export default function Profile() {
                         </Paper> */}
                 </Grid>
 
-            </Grid>         
+            </Grid>
         </Box >
     );
 }

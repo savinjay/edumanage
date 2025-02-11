@@ -15,7 +15,7 @@ function App() {
     {/* <Ntg/>
     <PasswordReset  Page /> */}
     {/* <SignIn/> */}
-    <Profile />
+    {/* <Profile /> */}
       <Routes>
         <Route path="/" element={<Dashboard/>} />
         <Route path="/login" element={<LoginPage />} />
