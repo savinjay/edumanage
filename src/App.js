@@ -9,7 +9,7 @@ import SignIn from './components/Frontend/SignIn';
 import Error from './components/Frontend/Error';
 import ContactUs from './components/Frontend/ContactUs';
 
-function App() {
+function App() {  
   return (
     <BrowserRouter> 
     {/* <Ntg/>

@@ -1,11 +1,7 @@
-import React from 'react';
-//{ useState } 
-import { useNavigate } from "react-router-dom"
-import { Mail, Phone, MapPin, Calendar, Pencil, LogOut, FileLock2, Linkedin, Instagram } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { useNavigate } from "react-router-dom";
+import { Mail, Phone, MapPin, Calendar, Pencil, LogOut, FileLock2, Linkedin, Instagram, Plus, FileText, Download, Eye, Trash2 } from 'lucide-react';
 import {
-    // FormControl,
-    // InputLabel,
-    //TextField,
     Button,
     Typography,
     Box,
@@ -13,626 +9,521 @@ import {
     Grid,
     ToggleButton,
     ToggleButtonGroup,
-    //Card,
-    //CardContent,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    TextField,
+    IconButton,
+    Tooltip,
+    Alert,
+    Divider,
 } from '@mui/material';
 
-export default function Profile() {
+function Profile() {
     const navigate = useNavigate();
-    // const [studentData, setStudentData] = useState({
-    //     name: '',
-    //     age: null,
-    //     class: null,
-    //     college: null,
-    //     bloodGroup: null,
-    //     UUCMS: null
-    // });
+    const [alignment, setAlignment] = useState('documents');
+    const [openBioDialog, setOpenBioDialog] = useState(false);
+    const [openUploadDialog, setOpenUploadDialog] = useState(false);
+    const [uploadType, setUploadType] = useState('');
+    const [newItemTitle, setNewItemTitle] = useState('');
+    const fileInputRef = useRef(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [error, setError] = useState('');
 
-    // const [editMode, setEditMode] = useState(false);
+    const [bioData, setBioData] = useState({
+        email: 'savinjaya@gmail.com',
+        phone: '+91 9876543210',
+        location: 'Bangalore, India',
+        linkedin: 'linkedin.com/in/savinjaya',
+        instagram: '@savinjaya'
+    });
 
-    // const handleEditToggle = () => {
-    //     setEditMode(!editMode);
-    // };
+    const [documents, setDocuments] = useState([
+        { id: 1, title: 'Tax Returns 2023', date: '2024-02-15', file: null },
+        { id: 2, title: 'Cover Letter', date: '2024-02-14', file: null },
+    ]);
 
-    // const handleDataUpdate = (field, value) => {
-    //     setStudentData({ ...studentData, [field]: value });
-    // };
+    const [certificates, setCertificates] = useState([
+        { id: 1, title: 'Web Development Certificate', issuer: 'Coursera', date: '2023-12-01', file: null },
+        { id: 2, title: 'Python Programming', issuer: 'Udemy', date: '2023-11-15', file: null },
+    ]);
 
-    // const [documents, setDocuments] = useState([]);
-    // const [officialDocs, setOfficialDocs] = useState([]);
-    // const [certificates, setCertificates] = useState([]);
-    // const [showAddForm, setShowAddForm] = useState(false);
-    // const [newCertificate, setNewCertificate] = useState({
-    //     name: '',
-    //     course: '',
-    //     pdf: null,
-    //     aadhar: null,
-    //     tenthMarks: null,
-    //     twelfthMarks: null
-    // });
-    // const [showAddDocForm, setShowAddDocForm] = useState(false);
-    // const [newDocument, setNewDocument] = useState({
-    //     name: '',
-    //     pdf: null
-    // });
-
-    // const handleAddDocument = () => {
-    //     if (newDocument.name && newDocument.pdf) {
-    //         setDocuments([...documents, newDocument]);
-    //         setNewDocument({ name: '', pdf: null });
-    //         setShowAddDocForm(false);
-    //     }
-    // };
-
-    // const handleAddCertificate = () => {
-    //     if (newCertificate.name && newCertificate.course && newCertificate.pdf) {
-    //         setCertificates([...certificates, newCertificate]);
-    //         setNewCertificate({ name: '', course: '', pdf: null });
-    //         setShowAddForm(false);
-    //     }
-    // };
-
-    // const handleFileCertificateChange = (event) => {
-    //     setNewCertificate({ ...newCertificate, pdf: event.target.files[0] });
-    // };
-
-    // const handleDeleteCertificate = (index) => {
-    //     setCertificates(certificates.filter((_, i) => i !== index));
-    // };
-    // const handleOfficialDocUpload = (docType, file) => {
-    //     setOfficialDocs({ ...officialDocs, [docType]: file });
-    // };
-
-    // const handleDeleteOfficialDoc = (docType) => {
-    //     setOfficialDocs({ ...officialDocs, [docType]: null });
-    // };
-
-    // const handleFileChange = (event, type) => {
-    //     setNewDocument({ ...newDocument, pdf: event.target.files[0] });
-    // };
-
-
-
-    // const DocumentSection = ({ title, document, docType }) => (
-    //     <Paper
-    //         sx={{
-    //             p: 3, backgroundColor: '#F0F0F0',
-    //             color: 'black',
-    //         }}
-    //     >
-    //         <Typography variant="h6" gutterBottom>{title}</Typography>
-    //         {document ? (
-
-    //             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-    //                 <Button variant="contained" onClick={() => window.open(URL.createObjectURL(document))}>
-    //                     View
-    //                 </Button>
-    //                 <Button
-    //                     variant="contained"
-    //                     color="secondary"
-    //                     onClick={() => {
-    //                         const link = window.document.createElement('a');
-    //                         link.href = URL.createObjectURL(document);
-    //                         link.download = `${title}.pdf`;
-    //                         link.click();
-    //                     }}
-    //                 >
-    //                     Download
-    //                 </Button>
-    //                 <Button
-    //                     variant="contained"
-    //                     color="error"
-    //                     onClick={() => handleDeleteOfficialDoc(docType)}
-    //                 >
-    //                     Delete
-    //                 </Button>
-    //             </Box>
-    //         ) : (
-    //             <Box>
-    //                 <input
-    //                     type="file"
-    //                     accept="application/pdf"
-    //                     onChange={(e) => handleOfficialDocUpload(docType, e.target.files[0])}
-    //                     style={{ display: 'none' }}
-    //                     id={`${docType}-upload`}
-    //                 />
-    //                 <label htmlFor={`${docType}-upload`}>
-    //                     <Button variant="contained" component="span">
-    //                         Add Document
-    //                     </Button>
-    //                 </label>
-    //             </Box>
-    //         )}
-    //     </Paper>
-    // );
     const handleLogoutClick = (event) => {
         event.preventDefault();
         navigate('/');
     };
-    const [alignment, setAlignment] = React.useState('documents');
 
     const handleChange = (event, newAlignment) => {
-        setAlignment(newAlignment);
-    }
+        if (newAlignment !== null) {
+            setAlignment(newAlignment);
+        }
+    };
+
+    const handleBioDialogOpen = () => {
+        setOpenBioDialog(true);
+    };
+
+    const handleBioDialogClose = () => {
+        setOpenBioDialog(false);
+    };
+
+    const handleBioSubmit = () => {
+        console.log('Bio updated:', bioData);
+        setOpenBioDialog(false);
+    };
+
+    const handleUploadDialogOpen = (type) => {
+        setUploadType(type);
+        setOpenUploadDialog(true);
+        setError('');
+        setNewItemTitle('');
+        setSelectedFile(null);
+    };
+
+    const handleUploadDialogClose = () => {
+        setOpenUploadDialog(false);
+        setError('');
+    };
+
+    const handleFileSelect = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            if (file.type === 'application/pdf' || file.type.startsWith('image/')) {
+                setSelectedFile(file);
+                setError('');
+            } else {
+                setError('Please select a PDF or image file');
+                setSelectedFile(null);
+            }
+        }
+    };
+
+    const handleUploadSubmit = () => {
+        if (!selectedFile) {
+            setError('Please select a file');
+            return;
+        }
+        if (!newItemTitle.trim()) {
+            setError('Please enter a title');
+            return;
+        }
+
+        const newItem = {
+            id: Date.now(),
+            title: newItemTitle,
+            date: new Date().toISOString().split('T')[0],
+            file: selectedFile,
+            ...(uploadType === 'certificates' && { issuer: 'Not Specified' })
+        };
+
+        if (uploadType === 'documents') {
+            setDocuments([...documents, newItem]);
+        } else {
+            setCertificates([...certificates, newItem]);
+        }
+
+        handleUploadDialogClose();
+    };
+
+    const handleDelete = (id, type) => {
+        if (type === 'documents') {
+            setDocuments(documents.filter(doc => doc.id !== id));
+        } else {
+            setCertificates(certificates.filter(cert => cert.id !== id));
+        }
+    };
+
+    const handleDownload = (item) => {
+        // download the actual file
+        console.log('Downloading:', item.title);
+    };
+
+    const handleView = (item) => {
+        //open the file in a viewer
+        console.log('Viewing:', item.title);
+    };
+
     return (
         <Box sx={{
-            minHeight: '100vh',
+            minHeight: '150vh',
             backgroundColor: 'rgba(113, 126, 142, 0.15)',
         }}>
-            {/* page header and navigation bar            */}
+            {/* Header */}
             <nav style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                boxShadow: '0px 1px',
+                padding: '1rem',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 backgroundColor: 'white'
             }}>
                 <Typography
                     variant="h4"
-                    fontStyle={'bold'}
-                    sx={{ marginLeft: '20px' }}
-                    gutterBottom>
+                    sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: 1,
+                        fontWeight: 'bold' 
+                    }}>
                     <FileLock2 size={40} />
                     EduVault
                 </Typography>
-                <Button variant='outlined' color='black' sx={{ marginRight: '20px' }} onClick={handleLogoutClick}><LogOut /> Logout</Button>
+                <Button 
+                    variant='outlined' 
+                    color='error'
+                    startIcon={<LogOut />}
+                    onClick={handleLogoutClick}
+                >
+                    Logout
+                </Button>
             </nav>
 
-            {/* profile and bio */}
+            {/* Profile Section */}
             <Paper sx={{
-                width: '90%', // Responsive width
-                maxWidth: '1760px', // Prevents overflow on large screens
-                margin: '40px auto', // Centers the paper with spacing from top
-                padding: '20px',
-                background: '#FFFEFFFF',
-                borderRadius: '6px',
-                border: '1px solid #F9FAFBFF',
-                boxShadow: '0px 0px 1px #171a1f12, 0px 0px 2px #171a1f1F'
+                width: '90%',
+                maxWidth: '1500px',
+                margin: '2rem auto',
+                padding: '2rem',
+                borderRadius: '10px',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
             }}>
-                {/* Profile Section */}
-                <Grid container spacing={2} alignItems="center">
+                <Grid container spacing={3} alignItems="center">
                     {/* Profile Image */}
-                    <Grid item xs={12} sm={2} display="flex" justifyContent="center">
-                        <img style={{
-                            borderRadius: '100%',
-                            border: 'solid 1px black',
-                            width: '140px',
-                            height: '140px',
-                            background: 'rgba(192, 201, 213, 0.36)',
-                            overflow: 'hidden',
-                        }} src="https://imgs.search.brave.com/XoCvQPCR8cwB92wTx6BVnT53TrDFDtYoR58BYS3mj6M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTE5/NjA4Mzg2MS92ZWN0/b3Ivc2ltcGxlLW1h/bi1oZWFkLWljb24t/c2V0LmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1hOGZ3ZFg2/VUtVVkNPZWROX3Aw/cFBzenU4QjRmNnNq/YXJEbVVHSG5ndmRN/PQ" alt="Profile Pic" />
+                    <Grid item xs={12} sm={3} display="flex" justifyContent="center">
+                        <Box
+                            component="img"
+                            src="https://imgs.search.brave.com/XoCvQPCR8cwB92wTx6BVnT53TrDFDtYoR58BYS3mj6M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTE5/NjA4Mzg2MS92ZWN0/b3Ivc2ltcGxlLW1h/bi1oZWFkLWljb24t/c2V0LmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1hOGZ3ZFg2/VUtVVkNPZWROX3Aw/cFBzenU4QjRmNnNq/YXJEbVVHSG5ndmRN/PQ"
+                            alt="Profile"
+                            sx={{
+                                width: 140,
+                                height: 140,
+                                borderRadius: '50%',
+                                border: '3px solid #4f46e5',
+                                objectFit: 'cover'
+                            }}
+                        />
                     </Grid>
 
-                    {/* Name & Student Title */}
-
+                    {/* Name & Title */}
                     <Grid item xs={12} sm={6}>
-                        <Typography fontFamily="Archivo" fontSize="30px" fontWeight={700} color="#1F273FFF">
+                        <Typography variant="h4" fontWeight="bold" color="primary">
                             Savinjaya H N
                         </Typography>
-                        <Typography fontFamily="Archivo" fontSize="20px" fontWeight={700} color="#85869CFF">
+                        <Typography variant="h6" color="text.secondary">
                             Student
                         </Typography>
                     </Grid>
 
                     {/* Update Bio Button */}
                     <Grid item xs={12} sm={3} display="flex" justifyContent="flex-end">
-                        <Button variant="outlined" color="black">
-                            <Pencil /> Update Bio
+                        <Button
+                            variant="outlined"
+                            color="black"
+                            startIcon={<Pencil />}
+                            onClick={handleBioDialogOpen}
+                        >
+                            Update Bio
                         </Button>
                     </Grid>
                 </Grid>
 
-                {/* Info Grid */}
-                <Grid container spacing={4} mt={3} pl={5}>
-                    {/* Left Section - Email & Location */}
-                    <Grid item xs={12} sm={4}>
-                        <Box display="flex" alignItems="center" gap={1} mb={1}>
-                            <Mail color="brown" />
-                            <Typography fontFamily="Inter" fontSize="19px" fontWeight={400} color="#85869CFF">
-                                Gmail
+                {/* Contact Information */}
+                <Grid container spacing={4} sx={{ mt: 4 }}>
+                    <Grid item xs={12} md={4}>
+                        <Box display="flex" alignItems="center" gap={1} mb={2}>
+                            <Mail color="#e11d48" />
+                            <Typography color="text.secondary">
+                                {bioData.email}
                             </Typography>
                         </Box>
                         <Box display="flex" alignItems="center" gap={1}>
-                            <MapPin color="green" />
-                            <Typography fontFamily="Archivo" fontSize="20px" fontWeight={700} color="#85869CFF">
-                                location
+                            <MapPin color="#059669" />
+                            <Typography color="text.secondary">
+                                {bioData.location}
                             </Typography>
                         </Box>
                     </Grid>
 
-                    {/* Right Section - Phone & Date */}
-                    <Grid item xs={12} sm={4} >
-                        <Box display="flex" alignItems="center" gap={1} mb={1}>
-                            <Phone color="blue" />
-                            <Typography fontFamily="Archivo" fontSize="20px" fontWeight={700} color="#85869CFF">
-                                Phone
+                    <Grid item xs={12} md={4}>
+                        <Box display="flex" alignItems="center" gap={1} mb={2}>
+                            <Phone color="#2563eb" />
+                            <Typography color="text.secondary">
+                                {bioData.phone}
                             </Typography>
                         </Box>
                         <Box display="flex" alignItems="center" gap={1}>
-                            <Calendar color="black" />
-                            <Typography fontFamily="Inter" fontSize="20px" fontWeight={400} color="#85869CFF">
-                                date
+                            <Calendar color="#4f46e5" />
+                            <Typography color="text.secondary">
+                                Joined Jan 2024
                             </Typography>
                         </Box>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <Box display="flex" alignItems="center" gap={1} mb={1}>
-                            <Linkedin color="skyblue" />
-                            <Typography fontFamily="Archivo" fontSize="20px" fontWeight={400} color="#85869CFF">
-                                LinkedIn
+
+                    <Grid item xs={12} md={4}>
+                        <Box display="flex" alignItems="center" gap={1} mb={2}>
+                            <Linkedin color="#0077b5" />
+                            <Typography color="text.secondary">
+                                {bioData.linkedin}
                             </Typography>
                         </Box>
                         <Box display="flex" alignItems="center" gap={1}>
-                            <Instagram color="pink" />
-                            <Typography fontFamily="Inter" fontSize="20px" fontWeight={700} color="#85869CFF">
-                                Instagram
+                            <Instagram color="#e4405f" />
+                            <Typography color="text.secondary">
+                                {bioData.instagram}
                             </Typography>
                         </Box>
                     </Grid>
                 </Grid>
             </Paper>
-            {/* Toggle buttons */}
-            <Grid container spacing={2} alignItems="center" display="flex" justifyContent="center">
+
+            {/* Toggle Buttons */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
                 <ToggleButtonGroup
                     color="primary"
                     value={alignment}
                     exclusive
                     onChange={handleChange}
-                    aria-label="Platform"
-                    size="large">
-                    <ToggleButton value="documents" sx={{
-                        size: '500px',
-                        borderRadius: '0.5rem',
-                        "&.Mui-selected": {
-                            backgroundColor: "#4f46e5",
-                            color: "white",
-                            "&:hover": {
-                                backgroundColor: "#4338ca"
+                    aria-label="Content Toggle"
+                    size="large"
+                >
+                    <ToggleButton 
+                        value="documents"
+                        sx={{
+                            px: 4,
+                            borderRadius: '8px 0 0 8px',
+                            '&.Mui-selected': {
+                                backgroundColor: '#4f46e5',
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: '#4338ca'
+                                }
                             }
-                        }
-                    }}>Documents</ToggleButton>
-                    <ToggleButton value="certificates" sx={{
-                        size: '500px',
-                        borderRadius: '0.5rem',
-                        "&.Mui-selected": {
-                            backgroundColor: "#4f46e5",
-                            color: "white",
-                            "&:hover": {
-                                backgroundColor: "#4338ca"
+                        }}
+                    >
+                        Documents
+                    </ToggleButton>
+                    <ToggleButton 
+                        value="certificates"
+                        sx={{
+                            px: 4,
+                            borderRadius: '0 8px 8px 0',
+                            '&.Mui-selected': {
+                                backgroundColor: '#4f46e5',
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: '#4338ca'
+                                }
                             }
-                        }
-                    }}>Certificates</ToggleButton>
+                        }}
+                    >
+                        Certificates
+                    </ToggleButton>
                 </ToggleButtonGroup>
-            </Grid>
+            </Box>
 
-
-
-            {/*
-             <Paper sx={{
-                p: 4, mb: 0,
-                background: 'linear-gradient(135deg, #2F4F7F 0%, #1A1D23 100%)',                
-                color: 'white',
+            {/* Content Section */}
+            <Paper sx={{ 
+                width: '90%', 
+                maxWidth: '1500px', 
+                margin: '0 auto', 
+                mb: 4,
+                p: 3,
+                borderRadius: '10px',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
             }}>
-                <Typography variant="h4" gutterBottom>Student Profile</Typography>
-                <Button variant="contained" color="primary" onClick={handleEditToggle}>
-                    {editMode ? 'Save' : 'Edit'}
-                </Button>
-                <Paper elevation={3} sx={{
-                    p: 6,
-                    backdropFilter: 'blur(10px)',
-                    borderRadius: 2,
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    color: 'white',
+                {/* Header with Title and Add Button */}
+                <Box sx={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center', 
+                    mb: 3 
                 }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <Typography><strong>Name:</strong> {editMode ? <input type="text" value={studentData.name} onChange={(e) => handleDataUpdate('name', e.target.value)} /> : studentData.name}</Typography>
-                            <Typography><strong>Age:</strong> {editMode ? <input type="number" value={studentData.age} onChange={(e) => handleDataUpdate('age', parseInt(e.target.value))} /> : studentData.age}</Typography>
-                            <Typography><strong>Class:</strong> {editMode ? <input type="text" value={studentData.class} onChange={(e) => handleDataUpdate('class', e.target.value)} /> : studentData.class}</Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Typography><strong>College:</strong> {editMode ? <input type="text" value={studentData.college} onChange={(e) => handleDataUpdate('college', e.target.value)} /> : studentData.college}</Typography>
-                            <Typography><strong>Blood Group:</strong> {editMode ? <input type="text" value={studentData.bloodGroup} onChange={(e) => handleDataUpdate('bloodGroup', e.target.value)} /> : studentData.bloodGroup}</Typography>
-                            <Typography><strong>UUCMS:</strong> {editMode ? <input type="text" value={studentData.UUCMS} onChange={(e) => handleDataUpdate('UUCMS', e.target.value)} /> : studentData.UUCMS}</Typography>
-                        </Grid>
-                    </Grid>
-                </Paper>
-            </Paper> 
-            */}
+                    <Typography variant="h5" fontWeight="bold">
+                        {alignment === 'documents' ? 'Official Documents' : 'Certificates'}
+                    </Typography>
+                    <Button
+                        variant="outlined"
+                        color="black"
+                        startIcon={<Plus />}
+                        onClick={() => handleUploadDialogOpen(alignment)}
+                    >
+                        Add {alignment === 'documents' ? 'Document' : 'Certificate'}
+                    </Button>
+                </Box>
 
+                <Divider sx={{ mb: 3 }} />
 
-
-            <Grid container spacing={2}>
-
-                <Grid item xs={13} sm={13}>
-
-                    {/* Official documnets */}
-
-                    {/* <Paper sx={{ display: 'block', p: 3, mb: 0, background: 'white', padding: '20px', borderRadius: '10px', textAlign: 'center', justifyItems: 'center', color: '#333', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-                            <Typography variant="h5" gutterBottom>Official Documents</Typography>
-                            <Grid item xs={12} sm={9} sx={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
-                                <DocumentSection title="Aadhar Card" document={officialDocs.aadhar} docType="aadhar" />
-                                <DocumentSection title="10th Marks Card" document={officialDocs.tenthMarks} docType="tenthMarks" />
-                                <DocumentSection title="12th Marks Card" document={officialDocs.twelfthMarks} docType="twelfthMarks" />
-                            </Grid>
-                        </Paper> */}
-                </Grid>
-                {/* Additional Documents */}
-                <Grid item xs={12} sm={6}>
-                    {/* <Paper sx={{ p: 3, mb: 3, background: 'white', padding: '20px', borderRadius: '10px', textAlign: 'center', color: '#333', minHeight: '150px', maxWidth: '700px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-                            <Typography variant="h5" gutterBottom>Additional Documents</Typography>
-                            {documents.map((doc, index) => (
-                                <Grid item key={index}>
-                                    <Card sx={{
-                                        backgroundColor: '#f0f0f0',
-                                        color: 'black',
-                                        mb: '10px',
-                                    }}>
-                                        <CardContent>
-                                            <Typography variant="h6" gutterBottom>{doc.name}</Typography>
-                                            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', }}>
-                                                <Button
-                                                    variant="contained"
-                                                    size="small"
-                                                    onClick={() => window.open(URL.createObjectURL(doc.pdf))}
-                                                >
-                                                    View
-                                                </Button>
-                                                <Button
-                                                    variant="contained"
-                                                    color="secondary"
-                                                    size="small"
-                                                    onClick={() => {
-                                                        const link = document.createElement('a');
-                                                        link.href = URL.createObjectURL(doc.pdf);
-                                                        link.download = `${doc.name}.pdf`;
-                                                        link.click();
-                                                    }}
-                                                >
-                                                    Download
-                                                </Button>
-                                                <Button
-                                                    variant="contained"
-                                                    color="error"
-                                                    size="small"
-                                                    onClick={() => setDocuments(documents.filter((_, i) => i !== index))}
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </Box>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-
-                            <Button
-                                variant="contained"
-                                onClick={() => setShowAddDocForm(true)}
-                                sx={{ mt: 2 }}
-                            >
-                                Add Document
-                            </Button>
-
-                            {showAddDocForm && (
-                                <Paper sx={{ display: 'block', backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px', textAlign: 'center', color: '#333', maxWidth: '600px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-                                    <Typography variant="h6" gutterBottom>Add New Document</Typography>
-                                    <TextField
-                                        fullWidth
-                                        label="Document Name"
-                                        value={newDocument.name}
-                                        onChange={(e) => setNewDocument({ ...newDocument, name: e.target.value })}
-                                        sx={{
-                                            mb: 2,
-                                            input: { color: 'white' },
-                                            '& .MuiOutlinedInput-root': {
-                                                '& fieldset': {
-                                                    borderColor: '#9c27b0', // Change outline color
-                                                },
-                                                '&:hover fieldset': {
-                                                    borderColor: '#9c27b0', // Change outline color on hover
-                                                },
-                                                '&.Mui-focused fieldset': {
-                                                    borderColor: '#9c27b0', // Change outline color when focused
-                                                },
-                                            },
-                                            '& .MuiInputLabel-root': {
-                                                color: 'black' // Change label/placeholder color
-                                            },
-                                            '& .MuiInputLabel-root.Mui-focused': {
-                                                color: '#9c27b0' // Change label color when focused
-                                            }
-                                        }}
-                                    />
-                                    <input
-                                        type="file"
-                                        accept="application/pdf"
-                                        onChange={(e) => handleFileChange(e, 'document')}
-                                        style={{ display: 'none' }}
-                                        id="doc-upload"
-                                    />
-                                    <label htmlFor="doc-upload">
-                                        <Button variant="contained" component="span">
-                                            Upload PDF
-                                        </Button>
-                                    </label>
-                                    {newDocument.pdf && (
-                                        <Typography sx={{ mt: 1 }}>{newDocument.pdf.name}</Typography>
-                                    )}
-                                    <Box sx={{ mt: 2 }}>
-                                        <Button
-                                            variant="contained"
-                                            onClick={handleAddDocument}
-                                            sx={{ mr: 1 }}
-                                        >
-                                            Add Document
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            onClick={() => setShowAddDocForm(false)}
-                                        >
-                                            Cancel
-                                        </Button>
+                {/* Items List */}
+                <Box>
+                    {(alignment === 'documents' ? documents : certificates).map((item, index) => (
+                        <React.Fragment key={item.id}>
+                            <Box sx={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                py: 2,
+                                '&:hover': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.02)'
+                                }
+                            }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                                    <FileText size={24} style={{ marginRight: '12px' }} />
+                                    <Box>
+                                        <Typography variant="subtitle1" fontWeight="medium">
+                                            {item.title}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {item.issuer && `Issuer: ${item.issuer} • `}Added: {item.date}
+                                        </Typography>
                                     </Box>
-                                </Paper>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 1 }}>
+                                    <Tooltip title="View">
+                                        <IconButton onClick={() => handleView(item)} color="primary" size="small">
+                                            <Eye size={20} />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Download">
+                                        <IconButton onClick={() => handleDownload(item)} color="primary" size="small">
+                                            <Download size={20} />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Delete">
+                                        <IconButton 
+                                            onClick={() => handleDelete(item.id, alignment)} 
+                                            color="error"
+                                            size="small"
+                                        >
+                                            <Trash2 size={20} />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                            </Box>
+                            {index < (alignment === 'documents' ? documents : certificates).length - 1 && (
+                                <Divider />
                             )}
-                        </Paper> */}
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                        </React.Fragment>
+                    ))}
+                    {(alignment === 'documents' ? documents : certificates).length === 0 && (
+                        <Typography color="text.secondary" textAlign="center" py={4}>
+                            No {alignment} found. Click the Add button to upload one.
+                        </Typography>
+                    )}
+                </Box>
+            </Paper>
 
+            {/* Update Bio Dialog */}
+            <Dialog open={openBioDialog} onClose={handleBioDialogClose} maxWidth="sm" fullWidth>
+                <DialogTitle>Update Bio Information</DialogTitle>
+                <DialogContent>
+                    <Box sx={{ mt: 2 }}>
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            value={bioData.email}
+                            onChange={(e) => setBioData({ ...bioData, email: e.target.value })}
+                            margin="normal"
+                        />
+                        <TextField
+                            fullWidth
+                            label="Phone"
+                            value={bioData.phone}
+                            onChange={(e) => setBioData({ ...bioData, phone: e.target.value })}
+                            margin="normal"
+                        />
+                        <TextField
+                            fullWidth
+                            label="Location"
+                            value={bioData.location}
+                            onChange={(e) => setBioData({ ...bioData, location: e.target.value })}
+                            margin="normal"
+                        />
+                        <TextField
+                            fullWidth
+                            label="LinkedIn Profile"
+                            value={bioData.linkedin}
+                            onChange={(e) => setBioData({ ...bioData, linkedin: e.target.value })}
+                            margin="normal"
+                        />
+                        <TextField
+                            fullWidth
+                            label="Instagram Handle"
+                            value={bioData.instagram}
+                            onChange={(e) => setBioData({ ...bioData, instagram: e.target.value })}
+                            margin="normal"
+                        />
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleBioDialogClose} color="error">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleBioSubmit} variant="contained" color="primary">
+                        Save Changes
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
-                    {/* course completion documents */}
-                    {/* <Paper sx={{ p: 3, mb: 3, background: 'white', padding: '20px', borderRadius: '10px', textAlign: 'center', minHeight: '150px', color: '#333', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-                            <Typography variant="h5" gutterBottom>Course Completion Certificates</Typography>
-                            <Grid container spacing={2}>
-                                {certificates.map((cert, index) => (
-                                    <Grid item xs={12} sm={6} md={4} key={index}>
-                                        <Paper elevation={2} sx={{ backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px', textAlign: 'center', color: '#333', maxWidth: '600px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-                                            <Typography sx={{ mb: 2, fontStyle: 'bold', color: '#2F4F7F', }}>Course Name :  {cert.name}</Typography>
-                                            <Typography sx={{ mb: 2, fontStyle: 'bold', color: '#2F4F7F', }}>Course Details :  {cert.course}</Typography>
-                                            <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    onClick={() => window.open(URL.createObjectURL(cert.pdf))}
-                                                >
-                                                    View
-                                                </Button>
-                                                <Button
-                                                    variant="contained"
-                                                    color="secondary"
-                                                    onClick={() => {
-                                                        const link = document.createElement('a');
-                                                        link.href = URL.createObjectURL(cert.pdf);
-                                                        link.download = `${cert.name}.pdf`;
-                                                        link.click();
-                                                    }}
-                                                >
-                                                    Download
-                                                </Button>
-                                                <Button
-                                                    variant="contained"
-                                                    color="error"
-                                                    onClick={() => handleDeleteCertificate(index)}
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </Box>
-                                        </Paper>
-                                    </Grid>
-                                ))}
-                            </Grid>
-
-
+            {/* Upload Dialog */}
+            <Dialog open={openUploadDialog} onClose={handleUploadDialogClose} maxWidth="sm" fullWidth>
+                <DialogTitle>
+                    Add New {uploadType === 'documents' ? 'Document' : 'Certificate'}
+                </DialogTitle>
+                <DialogContent>
+                    <Box sx={{ mt: 2 }}>
+                        <TextField
+                            fullWidth
+                            label="Title"
+                            value={newItemTitle}
+                            onChange={(e) => setNewItemTitle(e.target.value)}
+                            margin="normal"
+                        />
+                        {uploadType === 'certificates' && (
+                            <TextField
+                                fullWidth
+                                label="Issuer"
+                                margin="normal"
+                            />
+                        )}
+                        <Box sx={{ mt: 2 }}>
+                            <input
+                                type="file"
+                                accept=".pdf,image/*"
+                                style={{ display: 'none' }}
+                                ref={fileInputRef}
+                                onChange={handleFileSelect}
+                            />
                             <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => setShowAddForm(true)}
-                                sx={{ mt: 1 }}
+                                variant="outlined"
+                                onClick={() => fileInputRef.current.click()}
+                                startIcon={<Plus />}
                             >
-                                Add Certificate
+                                Select File
                             </Button>
-
-
-                            {showAddForm && (
-                                <Paper elevation={3} sx={{ backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px', textAlign: 'center', color: '#333', maxWidth: '600px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-                                    <Typography variant="h6" gutterBottom sx={{ color: 'black' }}>Add New Certificate</Typography>
-                                    <TextField
-                                        fullWidth
-                                        color='primary'
-                                        label="Certificate Name *"
-                                        value={newCertificate.name}
-                                        onChange={(e) => setNewCertificate({ ...newCertificate, name: e.target.value })}
-                                        sx={{
-                                            mb: 2,
-                                            input: { color: 'black' },
-                                            '& .MuiOutlinedInput-root': {
-                                                '& fieldset': {
-                                                    borderColor: '#9c27b0', // Change outline color
-                                                },
-                                                '&:hover fieldset': {
-                                                    borderColor: '#9c27b0', // Change outline color on hover
-                                                },
-                                                '&.Mui-focused fieldset': {
-                                                    borderColor: '#9c27b0', // Change outline color when focused
-                                                },
-                                            },
-                                            '& .MuiInputLabel-root': {
-                                                color: 'black' // Change label/placeholder color
-                                            },
-                                            '& .MuiInputLabel-root.Mui-focused': {
-                                                color: '#9c27b0' // Change label color when focused
-                                            }
-                                        }}
-                                    />
-
-                                    <TextField
-                                        fullWidth
-                                        label="Course Details "
-                                        color="secondary"
-                                        value={newCertificate.course}
-                                        onChange={(e) => setNewCertificate({ ...newCertificate, course: e.target.value })}
-                                        sx={{
-                                            mb: 2,
-                                            input: { color: 'black' },
-                                            '& .MuiOutlinedInput-root': {
-                                                '& fieldset': {
-                                                    borderColor: '#9c27b0', // Change outline color
-                                                },
-                                                '&:hover fieldset': {
-                                                    borderColor: '#9c27b0', // Change outline color on hover
-                                                },
-                                                '&.Mui-focused fieldset': {
-                                                    borderColor: '#9c27b0', // Change outline color when focused
-                                                },
-                                            },
-                                            '& .MuiInputLabel-root': {
-                                                color: 'black   ' // Change label/placeholder color
-                                            },
-                                            '& .MuiInputLabel-root.Mui-focused': {
-                                                color: '#9c27b0' // Change label color when focused
-                                            }
-                                        }}
-                                    />
-                                    <input
-                                        type="file"
-                                        accept="application/pdf"
-                                        onChange={handleFileCertificateChange}
-                                        style={{ display: 'none' }}
-                                        id="pdf-upload"
-                                    />
-                                    <label htmlFor="pdf-upload">
-                                        <Button variant="contained" component="span">
-                                            Upload PDF
-                                        </Button>
-                                    </label>
-                                    {newCertificate.pdf && (
-                                        <Typography sx={{ mt: 1 }}>{newCertificate.pdf.name}</Typography>
-                                    )}
-                                    <Box sx={{ mt: 2 }}>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={handleAddCertificate}
-                                            sx={{ mr: 2 }}
-                                        >
-                                            Add Certificate
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            onClick={() => setShowAddForm(false)}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </Box>
-                                </Paper>
+                            {selectedFile && (
+                                <Typography sx={{ mt: 1 }}>
+                                    Selected: {selectedFile.name}
+                                </Typography>
                             )}
-                        </Paper> */}
-                </Grid>
-
-            </Grid>
-        </Box >
+                        </Box>
+                        {error && (
+                            <Alert severity="error" sx={{ mt: 2 }}>
+                                {error}
+                            </Alert>
+                        )}
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleUploadDialogClose} color="error">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleUploadSubmit} variant="contained">
+                        Upload
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </Box>
     );
 }
 
+export default Profile;
