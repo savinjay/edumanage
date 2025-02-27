@@ -21,19 +21,23 @@ export default function SignIn() {
   };
 
   return (
-    <Box sx={{
+    <Box 
+    sx={{
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
-      background: 'linear-gradient(135deg, #2F4F7F 0%, #1A1D23 100%)'
-    }}>
+      justifyContent: 'center',
+      background: 'white'
+    }}
+    >
       <Container maxWidth="sm">
-        <Paper elevation={3} sx={{
-          p: 4,
-          backdropFilter: 'blur(10px)',
-          borderRadius: 2,
-          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        }}>
+        <Paper  elevation={3}
+          sx={{
+            p: 4,
+            backdropFilter: 'blur(10px)',
+            borderRadius: 2,
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+          }}>
           <Typography variant="h4" align="center" gutterBottom>
             Sign Up
           </Typography>

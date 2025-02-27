@@ -246,7 +246,7 @@ export default function LoginPage() {
                   Forgot password?
                 </Link>
                 <Link
-                  href="/signup"
+                  href="/SignIn"
                   variant="body2"
                   sx={{ color: 'black' }}
                 >

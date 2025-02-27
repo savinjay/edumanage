@@ -32,21 +32,21 @@ function Profile() {
     const [error, setError] = useState('');
 
     const [bioData, setBioData] = useState({
-        email: 'savinjaya@gmail.com',
-        phone: '+91 9876543210',
-        location: 'Bangalore, India',
-        linkedin: 'linkedin.com/in/savinjaya',
-        instagram: '@savinjaya'
+        email:'',
+        phone:'',
+        location: '',
+        linkedin: '',
+        instagram: ''
     });
 
     const [documents, setDocuments] = useState([
-        { id: 1, title: 'Tax Returns 2023', date: '2024-02-15', file: null },
-        { id: 2, title: 'Cover Letter', date: '2024-02-14', file: null },
+        // { id: 1, title: 'Tax Returns 2023', date: '2024-02-15', file: null },
+        // { id: 2, title: 'Cover Letter', date: '2024-02-14', file: null },
     ]);
 
     const [certificates, setCertificates] = useState([
-        { id: 1, title: 'Web Development Certificate', issuer: 'Coursera', date: '2023-12-01', file: null },
-        { id: 2, title: 'Python Programming', issuer: 'Udemy', date: '2023-11-15', file: null },
+        // { id: 1, title: 'Web Development Certificate', issuer: 'Coursera', date: '2023-12-01', file: null },
+        // { id: 2, title: 'Python Programming', issuer: 'Udemy', date: '2023-11-15', file: null },
     ]);
 
     const handleLogoutClick = (event) => {
@@ -134,14 +134,61 @@ function Profile() {
         }
     };
 
+ 
     const handleDownload = (item) => {
-        // download the actual file
-        console.log('Downloading:', item.title);
+        try {
+            console.log('Attempting to download:', item.title);
+            if (!item.file) {
+                alert(`No file available for ${item.title}. Please upload a file first.`);
+                return;
+            }
+
+            // Create a URL for the file and trigger a browser download
+            const url = URL.createObjectURL(item.file);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = item.title; // Set the file name for download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link); // Clean up
+            window.URL.revokeObjectURL(url); // Free memory
+
+            console.log('Successfully downloaded:', item.title);
+        } catch (error) {
+            console.error('Error downloading file:', error.message);
+            alert(`Failed to download ${item.title}. Ensure a file is uploaded and try again.`);
+        }
     };
 
+   
     const handleView = (item) => {
-        //open the file in a viewer
-        console.log('Viewing:', item.title);
+        try {
+            console.log('Attempting to view:', item.title);
+            if (!item.file) {
+                alert(`No file available for ${item.title}. Please upload a file first.`);
+                return;
+            }
+
+            // Get file type from the file object
+            const fileType = item.file.type.split('/').pop().toLowerCase();
+            if (fileType === 'pdf') {
+                // Open PDF in a new tab using a blob URL
+                const url = URL.createObjectURL(item.file);
+                window.open(url, '_blank');
+                window.URL.revokeObjectURL(url); // Clean up
+            } else if (['png', 'jpg', 'jpeg', 'gif'].includes(fileType)) {
+                // Open image in a new tab using a blob URL
+                const url = URL.createObjectURL(item.file);
+                window.open(url, '_blank');
+                window.URL.revokeObjectURL(url); // Clean up
+            } else {
+                alert(`Viewing ${item.title} is not supported. Try downloading it instead.`);
+            }
+            console.log('Successfully viewing:', item.title);
+        } catch (error) {
+            console.error('Error viewing file:', error.message);
+            alert(`Failed to view ${item.title}. Ensure a file is uploaded and try again.`);
+        }
     };
 
     return (
@@ -208,12 +255,12 @@ function Profile() {
                     {/* Name & Title */}
                     <Grid item xs={12} sm={6}>
                         <Typography variant="h4" fontWeight="bold" color="primary">
-                            Savinjaya H N
+                        {bioData.name || " Full Name"}
                         </Typography>
                         <Typography variant="h6" color="text.secondary">
-                            Student
+                        {bioData.profession || "Profession"}
                         </Typography>
-                    </Grid>
+                    </Grid> 
 
                     {/* Update Bio Button */}
                     <Grid item xs={12} sm={3} display="flex" justifyContent="flex-end">
@@ -234,13 +281,13 @@ function Profile() {
                         <Box display="flex" alignItems="center" gap={1} mb={2}>
                             <Mail color="#e11d48" />
                             <Typography color="text.secondary">
-                                {bioData.email}
+                                {bioData.email|| "Email"}
                             </Typography>
                         </Box>
                         <Box display="flex" alignItems="center" gap={1}>
                             <MapPin color="#059669" />
                             <Typography color="text.secondary">
-                                {bioData.location}
+                                {bioData.location|| "Location"}
                             </Typography>
                         </Box>
                     </Grid>
@@ -249,13 +296,13 @@ function Profile() {
                         <Box display="flex" alignItems="center" gap={1} mb={2}>
                             <Phone color="#2563eb" />
                             <Typography color="text.secondary">
-                                {bioData.phone}
+                                {bioData.phone|| "Phone"}
                             </Typography>
                         </Box>
                         <Box display="flex" alignItems="center" gap={1}>
                             <Calendar color="#4f46e5" />
                             <Typography color="text.secondary">
-                                Joined Jan 2024
+                                {bioData.birthdate|| "Birthdate"}
                             </Typography>
                         </Box>
                     </Grid>
@@ -264,13 +311,13 @@ function Profile() {
                         <Box display="flex" alignItems="center" gap={1} mb={2}>
                             <Linkedin color="#0077b5" />
                             <Typography color="text.secondary">
-                                {bioData.linkedin}
+                                {bioData.linkedin || "LinkedIn"}
                             </Typography>
                         </Box>
                         <Box display="flex" alignItems="center" gap={1}>
                             <Instagram color="#e4405f" />
                             <Typography color="text.secondary">
-                                {bioData.instagram}
+                                {bioData.instagram || " Instagram" }
                             </Typography>
                         </Box>
                     </Grid>
@@ -417,6 +464,24 @@ function Profile() {
                 <DialogTitle>Update Bio Information</DialogTitle>
                 <DialogContent>
                     <Box sx={{ mt: 2 }}>
+                    <TextField
+                            fullWidth
+                            label="Name"
+                            placeholder="e.g., Tony Stark"
+                            required
+                            value={bioData.name}
+                            onChange={(e) => setBioData({ ...bioData, name: e.target.value })}
+                            margin="normal"
+                        />
+                         <TextField
+                            fullWidth
+                            label="Profession"
+                            placeholder="e.g., Data Analyst"
+                            required
+                            value={bioData.profession}
+                            onChange={(e) => setBioData({ ...bioData, name: e.target.value })}
+                            margin="normal"
+                        />
                         <TextField
                             fullWidth
                             label="Email"
@@ -429,6 +494,13 @@ function Profile() {
                             label="Phone"
                             value={bioData.phone}
                             onChange={(e) => setBioData({ ...bioData, phone: e.target.value })}
+                            margin="normal"
+                        />
+                        <TextField
+                            fullWidth
+                            label="Birthdate"
+                            value={bioData.birthdate}
+                            onChange={(e) => setBioData({ ...bioData, birthdate: e.target.value })}
                             margin="normal"
                         />
                         <TextField
