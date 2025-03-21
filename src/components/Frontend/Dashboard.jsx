@@ -7,7 +7,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const handleSigninClick = (event) => {
     event.preventDefault();
-    navigate('/signin');
+    navigate('/SignUp');
   };
   const handleLoginClick = (event) => {
     event.preventDefault();
@@ -35,7 +35,7 @@ export default function Dashboard() {
             color="primary"
             onClick={handleSigninClick}
           >
-            Sign In
+            Sign Up
           </Button>
           <Button
             variant="contained"

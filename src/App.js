@@ -1,31 +1,29 @@
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import './App.css';
 import LoginPage from './components/Frontend/LoginPage';
 import Dashboard from './components/Frontend/Dashboard';
 import Profile from './components/Frontend/Profile';
-import PasswordResetPage from './components/Frontend/PasswordResetPage';
-import SignIn from './components/Frontend/SignIn';
+import SignUp from './components/SignUp';
 import Error from './components/Frontend/Error';
 import ContactUs from './components/Frontend/ContactUs';
+import ResetPassword from './components/Frontend/ResetPassword'; 
 
-function App() {  
+function App() {
   return (
     <BrowserRouter> 
-    {/* <Ntg/>
-    <PasswordReset  Page /> */}
-    {/* <SignIn/> */}
-    {/* <Profile /> */}
       <Routes>
-        <Route path="/" element={<Dashboard/>} />
+      <Route path="/" element={<Dashboard/>} />
+        <Route path="/SignUp" element={<SignUp />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/reset-password" element={<PasswordResetPage />} />
-        <Route path='/signin' element={<SignIn/>} />
+        <Route path="/Profile" element={<Profile />} />
         <Route path='/ContactUs' element={<ContactUs/>} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path='/*' element={<Error/> } />
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
   );
 }
 
