@@ -126,7 +126,7 @@ export default function ContactUs() {
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <IconButton color="primary" href="https://github.com/narthan" target="_blank">
+                    <IconButton color="primary" href="https://github.com/narthanhs" target="_blank">
                       <GitHub />
                     </IconButton>
                   </ListItemIcon>
