@@ -79,7 +79,7 @@ export default function ContactUs() {
             </Paper>
           </Grid>
 
-          {/* Section for Your Friend */}
+          {/* Section for Nartan  */}
           <Grid item xs={12} md={6}>
             <Paper elevation={3} sx={{ p: 3 }}>
               <Typography variant="h5" gutterBottom>Narthan H S</Typography>

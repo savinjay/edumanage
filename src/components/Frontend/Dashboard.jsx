@@ -26,7 +26,7 @@ export default function Dashboard() {
         <Box sx={{ backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px', textAlign: 'center', color: '#333', maxWidth: '600px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
           <Typography variant="h5">Welcome to EduVault</Typography>
           <Typography variant="body1" style={{ marginTop: '10px' }}>
-            A Student Data Management Portal that empowers educational institutions, administrators, and teachers with a robust toolset to streamline student data management.
+        A modern and secure platform designed to empower students by providing a centralized hub to manage their educational and personal information with ease. Built with the needs of students in mind, EduVault offers a seamless way to store, organize, and access important details such as personal profiles, official documents, and certificates—all in one place.
           </Typography>
         </Box>
         <Box sx={{ marginTop: '30px', display: 'flex', gap: '20px' }}>
