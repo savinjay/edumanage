@@ -78,63 +78,6 @@ export default function ContactUs() {
               </List>
             </Paper>
           </Grid>
-
-          {/* Section for Nartan  */}
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 3 }}>
-              <Typography variant="h5" gutterBottom>Narthan H S</Typography>
-              <List>
-                <ListItem>
-                  <ListItemIcon><School /></ListItemIcon>
-                  <ListItemText primary="College" secondary="SDM College Ujire" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon><Class /></ListItemIcon>
-                  <ListItemText primary="Class" secondary="III BCA" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <IconButton color="primary" href="https://www.instagram.com/_.narthan._hs/" target="_blank">
-                      <Instagram />
-                    </IconButton>
-                  </ListItemIcon>
-                  <ListItemText primary="Instagram" secondary="Follow on Instagram" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <IconButton color="primary" href="https://linkedin.com" target="_blank">
-                      <LinkedIn />
-                    </IconButton>
-                  </ListItemIcon>
-                  <ListItemText primary="LinkedIn" secondary="Connect on LinkedIn" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <IconButton color="primary" href="https://x.com" target="_blank">
-                      <Twitter />
-                    </IconButton>
-                  </ListItemIcon>
-                  <ListItemText primary="X" secondary="Follow on X" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <IconButton color="primary" href="https://portfolio.com" target="_blank">
-                      <Link />
-                    </IconButton>
-                  </ListItemIcon>
-                  <ListItemText primary="Portfolio" secondary="View portfolio" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <IconButton color="primary" href="https://github.com/narthanhs" target="_blank">
-                      <GitHub />
-                    </IconButton>
-                  </ListItemIcon>
-                  <ListItemText primary="GitHub" secondary="Check out GitHub" />
-                </ListItem>
-              </List>
-            </Paper>
-          </Grid>
         </Grid>
       </Box>
     </Container>
